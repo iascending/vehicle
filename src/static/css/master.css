@@ -1,0 +1,21 @@
+body {
+  /* font-family: 'Open Sans', sans-serif; */
+  font-family: 'Montserrat', sans-serif;
+  /* font-family: 'Special Elite', cursive; */
+  /* font-family: 'IM Fell English SC', serif; */
+  font-weight: bolder;
+}
+
+h1 {
+  /* font-family: 'IM Fell English SC', serif; */
+  font-family: 'Cabin Sketch', cursive;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+.table-fit {
+    white-space: nowrap;
+    font-size: 14px;
+    width: 1px;
+}

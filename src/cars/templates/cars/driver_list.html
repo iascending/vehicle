@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+  {% if request.user.is_authenticated %}
+    <br><br>
+
+    <div class="form-group ">
+      <form class="form-inline justify-content-center">
+          <input class="form-control rounded py-2 col-sm-10 mr-4" type="search" name="search" placeholder="Query Text"> </input>
+          <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+    </div>
+
+    <br>
+    {% if driver_list %}
+      <table id="drivers" class="table table-hover table-striped">
+        <thead class="thead-light">
+          <tr>
+            <th><a href="?order_by=name">Name</a></th>
+            <th><a href="?order_by=dept">Dept</a></th>
+            <th><a href="?order_by=mobile">Mobile</a></th>
+            <th><a href="?order_by=email">Email</a></th>
+            <th><a href="?order_by=-latest_start_date">Start Driving Date</a></th>
+            <th><a href="?order_by=current_car">Current Vehicle</a></th>
+          </tr>
+       </thead>
+          {% for driver in driver_list %}
+              <tr>
+                  <td><a href="/cars/drivers/{{ driver.id }}">{{ driver.name }}</a></td>
+                  <td>{{ driver.get_dept_display }}</td>
+                  <td>{{ driver.mobile }}</td>
+                  <td>{{ driver.email }}</td>
+                  <td>{{ driver.latest_start_date|date:'Y-m-d H:i'  }}</td>
+                  <td>{{ driver.current_car }}</td>
+              </tr>
+          {% endfor %}
+      </table>
+      {# .... **Now the pagination section** .... #}
+      {% if is_paginated %}
+          <div class="pagination">
+              <span class="page-links">
+                  {% if page_obj.has_previous %}
+                      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                  {% endif %}
+                  <span class="page-current">
+                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                  </span>
+                  {% if page_obj.has_next %}
+                      <a href="?page={{ page_obj.next_page_number }}">next</a>
+                  {% endif %}
+              </span>
+          </div>
+      {% endif %}
+    {% else %}
+      <h3>No drivers found!!! :( </h3>
+    {% endif %}
+  {% else %}
+    <h2> Please Login First !</h2>
+  {% endif %}
+</div>
+
+{% endblock %}

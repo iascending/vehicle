@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+  <br><h3> The Car's Details </h3><br>
+  <ul>
+    <li><div class="row"><div class="col-sm-4"> Rego: </div> <div class="col-sm-8"> {{ car.rego }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Year: </div> <div class="col-sm-8"> {{ car.year }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Type: </div> <div class="col-sm-8"> {{ car.type }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Make: </div> <div class="col-sm-8"> {{ car.make }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Color: </div> <div class="col-sm-8"> {{ car.color }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Engine Number: </div> <div class="col-sm-8"> {{ car.engine_no }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Transmission: </div> <div class="col-sm-8"> {{ car.transmission }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> VIN: </div> <div class="col-sm-8"> {{ car.vin }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Options: </div> <div class="col-sm-8"> {{ car.options }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Maintenance Status: </div> <div class="col-sm-8"> {{ car.maintenance_status }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Lease Start Date: </div> <div class="col-sm-8"> {{ car.lease_start_date }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Lease Term: </div> <div class="col-sm-8"> {{ car.lease_term }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Rental: </div> <div class="col-sm-8"> {{ car.rental }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Distance Restriction: </div> <div class="col-sm-8"> {{ car.distance_restrict }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Start Odometer: </div> <div class="col-sm-8"> {{ car.start_odometer }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Excess Charge/km: </div> <div class="col-sm-8"> {{ car.excess_kmcharge }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Default Interest: </div> <div class="col-sm-8"> {{ car.default_interest }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Status: </div> <div class="col-sm-8"> {{ car.get_status_display }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Lessor: </div> <div class="col-sm-8"> Street Fleet </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Rego Expiry Date: </div> <div class="col-sm-8"> {{ car.rego_exp|date:'Y-m-d' }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Insurer: </div> <div class="col-sm-8"> {{ car.insurer }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Policy Number: </div> <div class="col-sm-8"> {{ car.policy_num }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Insurance Expiry Date: </div> <div class="col-sm-8"> {{ car.insurance_exp|date:'Y-m-d' }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Fuel Efficiency: </div> <div class="col-sm-8"> {{ car.fuel_efficiency }} </div></div></li>
+  </ul>
+{% endblock %}

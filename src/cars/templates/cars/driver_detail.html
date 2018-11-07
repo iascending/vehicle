@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+  <br><h3> The Driver's Details </h3><br>
+  <ul>
+    <li><div class="row"><div class="col-sm-4"> Name: </div> <div class="col-sm-8"> {{ driver.name }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Mobile: </div> <div class="col-sm-8"> {{ driver.mobile }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Email: </div> <div class="col-sm-8"> {{ driver.email }} </div></div></li>
+    <li><div class="row"><div class="col-sm-4"> Department: </div> <div class="col-sm-8"> {{ driver.get_dept_display }} </div></div></li>
+  </ul>
+{% endblock %}

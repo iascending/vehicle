@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+  {% if request.user.is_authenticated %}
+    <br><br>
+    <div class="form-group ">
+      <form class="form-inline justify-content-center">
+          <input class="form-control rounded py-2 col-sm-10 mr-4" type="search" name="search"
+                placeholder="Query text"> </input>
+          <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+    </div>
+    <br>
+    {% if drivingrecord_list %}
+      <table id="cars" class="table table-hover table-bordered">
+        <thead class="thead-light text-justify">
+          <tr>
+            <th class="text-center"><a href="?order_by=-pk">SN</a></th>
+            <th class="text-center"><a href="?order_by=driver__name">Driver</a></th>
+            <th class="text-center"><a href="?order_by=car__rego">Car</a></th>
+            <th class="text-center"><a href="?order_by=-start_date">Start</a></th>
+            <th class="text-center"><a href="?order_by=-end_date">End</a></th>
+            <th class="text-center"><a href="?order_by=-created_at">Created at</a></th>
+            <th class="text-center">Action</th>
+          </tr>
+       </thead>
+          {% for record in drivingrecord_list %}
+              <tr>
+                  <!-- <td> <a href="/cars/drivingrecords/{{ record.pk }}"> {{ record.pk }} </a></td> -->
+                  <td> {{ record.pk }} </td>
+                  <td> <a href="/cars/drivers/{{ record.driver.id }}">{{ record.driver }}</a></td>
+                  <td> <a href="/cars/cars/{{ record.car.id }}">{{ record.car }}</a></td>
+                  <td>{{ record.start_date|date:'Y-m-d H:i' }}</td>
+                  <td>{{ record.end_date|date:'Y-m-d H:i' }}</td>
+                  <td>{{ record.created_at|date:'Y-m-d H:i' }}</td>
+                  <td class="text-center"><a href="{% url 'cars:update_drivingrecord' record.pk %}" class="btn btn-info btn-sm"> Update </a><a href="{% url 'cars:delete_drivingrecord' record.pk %}" class="btn btn-danger btn-sm"> Delete </a></td>
+              </tr>
+          {% endfor %}
+      </table>
+      <!-- {# .... **Now the pagination section** .... #} -->
+      {% if is_paginated %}
+          <div class="pagination">
+              <span class="page-links">
+                  {% if page_obj.has_previous %}
+                      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                  {% endif %}
+                  <span class="page-current">
+                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                  </span>
+                  {% if page_obj.has_next %}
+                      <a href="?page={{ page_obj.next_page_number }}">next</a>
+                  {% endif %}
+              </span>
+          </div>
+      {% endif %}
+    {% else %}
+      <h3>No car driving history found!!! :(</h3>
+    {% endif %}
+  {% else %}
+    <h2> Please Login First !</h2>
+  {% endif %}
+</div>
+
+{% endblock %}
