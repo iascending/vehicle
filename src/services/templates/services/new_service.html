@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% block content %}
+
+  <div class="container">
+      <h1 > New Service Record </h1>
+      <form action="#" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <input type="submit" class="btn btn-primary" value="Create" />
+      </form>
+      {# {% for attachment in attachments %} #}
+          {# {{forloop.counter}}.<a href="{{ attachment.service_report.url }}">{{ attachment.service_report.name }}</a> #}
+          {# ({{attachment.file_upload_date}})<hr /> #}
+      {# {% endfor %} #}
+  </div>
+
+{% endblock %}

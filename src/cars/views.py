@@ -140,8 +140,7 @@ class ListCars(generic.ListView):
         if query is not None:
             search_condition = Q(rego__icontains=query)|Q(current_driver__icontains=query)|Q(make__icontains=query)
             return qs.filter(search_condition)
-        else:
-            return qs
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super(ListCars, self).get_context_data(**kwargs)
@@ -181,8 +180,7 @@ class ListDriver(generic.ListView):
         if query is not None:
             search_condition = Q(current_car__icontains=query)|Q(name__icontains=query)|Q(mobile__icontains=query)
             return qs.filter(search_condition)
-        else:
-            return qs
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super(ListDriver, self).get_context_data(**kwargs)
@@ -210,8 +208,7 @@ class ListDrivingRecord(generic.ListView):
         if query is not None:
             search_condition = Q(car__rego__icontains=query)|Q(driver__name__icontains=query)|Q(start_date__icontains=query)|Q(end_date__icontains=query)
             return qs.filter(search_condition)
-        else:
-            return qs
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super(ListDrivingRecord, self).get_context_data(**kwargs)

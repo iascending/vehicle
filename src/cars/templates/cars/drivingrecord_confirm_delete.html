@@ -5,7 +5,7 @@
 <br><h3>Delete Driving Record</h3><br>
 <form method="post">{% csrf_token %}
     <h5> Are you sure you want to delete? </h5>
-    <p> The record of {{object.driver}} using {{object.car}} starting at {{object.start_date}} </p>
+    <p> {{object.driver}}'s driving record of {{object.car}} started at {{object.start_date}} </p>
     <input type="submit" class="btn btn-danger" value="Confirm">
     <a href="{% url 'cars:drivingrecord_list' %}" class="btn btn-info">Cancel</a>
 </form>

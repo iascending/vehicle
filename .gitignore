@@ -1,0 +1,7 @@
+Lib/
+Include/
+Scripts/
+tcl/
+__pycache__/
+
+*.py[cod]
