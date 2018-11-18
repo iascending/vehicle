@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="container">
+<!-- <div class="container"> -->
   {% if request.user.is_authenticated %}
     <br><br>
 
@@ -34,7 +34,6 @@
        </thead>
           {% for car in car_list %}
               <tr>
-                  <!-- {# <td>{{ car.model }}</td> #} -->
                   <td><a href="/cars/cars/{{ car.id }}/" class="see_detail">{{ car.rego }}</a></td>
                   <td>{{ car.get_lessor_display }}</td>
                   <td>{{ car.lease_start_date|date:'Y-m-d' }}</td>
@@ -71,6 +70,6 @@
   {% else %}
     <h2> Please Login First !</h2>
   {% endif %}
-</div>
+<!-- </div> -->
 
 {% endblock %}

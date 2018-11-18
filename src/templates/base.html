@@ -10,17 +10,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Play+Cabin+Sketch" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/master.css'%}">
+    <link  href="{% static 'css/master.css' %}" rel="stylesheet">
   </head>
-
+  <link  href="{% static 'css/master.css' %}" rel="stylesheet">
   <body>
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-info">
           <a class="navbar-brand" href="{% url 'home' %}">Premium Repair Services</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+          <div class="collapse navbar-collapse justify-content-end"  id="navbarSupportedContent">
             <ul class="nav navbar-nav">
               {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
@@ -72,7 +72,7 @@
           <h1> Please Login to the System to go ahead </h1>
         {% endif %} -->
     </div>
-    <div class="container">
+    <div class='container-fluid'>
       {% block content %}
       {% endblock %}
     </div>

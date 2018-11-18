@@ -15,7 +15,13 @@ h1 {
 }
 
 .table-fit {
-    white-space: nowrap;
-    font-size: 14px;
-    width: 1px;
+  /* position: absolute; */
+  white-space: nowrap;
+  font-size: 1.1rem;
+  width: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  border-left: 4.0rem;
+  border-right: 4.0rem;
+
 }
