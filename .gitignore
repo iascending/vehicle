@@ -3,5 +3,6 @@ Include/
 Scripts/
 tcl/
 __pycache__/
-
+bin/
+.Python
 *.py[cod]

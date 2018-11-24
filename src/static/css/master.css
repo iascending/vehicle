@@ -1,6 +1,6 @@
 body {
-  /* font-family: 'Open Sans', sans-serif; */
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  /* font-family: 'Montserrat', sans-serif; */
   /* font-family: 'Special Elite', cursive; */
   /* font-family: 'IM Fell English SC', serif; */
   font-weight: bolder;
@@ -27,8 +27,11 @@ h1 {
 
 .table-fit__large-table-cell {
   /* position: relative; */
-  white-space: normal;
+  white-space:normal;
   overflow-y: scroll;
-  width: 480px;
+  word-wrap: break-word;
+  min-width: 12.5rem;
   height: 3rem;
+  margin: 0 -1.2rem 0 0;
+
 }
