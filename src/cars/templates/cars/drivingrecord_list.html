@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container-fluid">
   {% if request.user.is_authenticated %}
     <br><br>
     <div class="form-group ">
@@ -14,7 +14,7 @@
     </div>
     <br>
     {% if drivingrecord_list %}
-      <table id="cars" class="table table-hover table-bordered">
+      <table id="cars" class="table table-hover table-bordered table-fit">
         <thead class="thead-light text-justify">
           <tr>
             <th class="text-center"><a href="?order_by=-pk">SN</a></th>
@@ -22,6 +22,7 @@
             <th class="text-center"><a href="?order_by=car__rego">Car</a></th>
             <th class="text-center"><a href="?order_by=-start_date">Start</a></th>
             <th class="text-center"><a href="?order_by=-end_date">End</a></th>
+            <th class="text-center">Note</th>
             <th class="text-center"><a href="?order_by=-created_at">Created at</a></th>
             <th class="text-center">Action</th>
           </tr>
@@ -34,6 +35,9 @@
                   <td> <a href="/cars/cars/{{ record.car.id }}">{{ record.car }}</a></td>
                   <td>{{ record.start_date|date:'Y-m-d H:i' }}</td>
                   <td>{{ record.end_date|date:'Y-m-d H:i' }}</td>
+                  <td> <div class="table-fit__large-table-cell">
+                    {{ record.note }}
+                  </div></td>
                   <td>{{ record.created_at|date:'Y-m-d H:i' }}</td>
                   <td class="text-center">
                     <a href="{% url 'cars:update_drivingrecord' record.pk %}" class="btn btn-info btn-sm"> Update </a>

@@ -88,6 +88,7 @@ class DrivingRecord(models.Model):
     car         = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='working_records')
     start_date  = models.DateTimeField()
     end_date    = models.DateTimeField(null=True, blank=True, editable=True)
+    note        = models.CharField(max_length=512, blank=True, null=True, default="")
     created_at  = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
@@ -126,6 +127,6 @@ class DrivingRecord(models.Model):
                     raise forms.ValidationError("Records already exist, datetime interval conflicts")
                 # else:
                 #     return self.full_clean()
-    
+
     class Meta:
         ordering = ['car', '-start_date']

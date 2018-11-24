@@ -79,7 +79,7 @@ class NewDrivingRecord(LoginRequiredMixin, generic.CreateView):
 
 class DrivingRecordUpdate(LoginRequiredMixin, generic.UpdateView):
     model = DrivingRecord
-    fields = ['driver', 'car', 'start_date', 'end_date']
+    fields = ['driver', 'car', 'start_date', 'end_date', 'note']
     template_name_suffix = '_update_form'
 
     def user_perm_check(self, request):

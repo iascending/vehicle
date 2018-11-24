@@ -15,13 +15,20 @@ h1 {
 }
 
 .table-fit {
+  /* table-layout: fixed; */
   /* position: absolute; */
   white-space: nowrap;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  font-weight: 300;
   width: 10px;
   margin-left: auto;
   margin-right: auto;
-  border-left: 4.0rem;
-  border-right: 4.0rem;
+}
 
+.table-fit__large-table-cell {
+  /* position: relative; */
+  white-space: normal;
+  overflow-y: scroll;
+  width: 480px;
+  height: 3rem;
 }
