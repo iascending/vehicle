@@ -8,8 +8,9 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import F, Q, Max, When, Case, Value, CharField
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput
 
-from cars.forms import NewCarCreateForm
+from cars.forms import NewCarCreateForm, NewDrivingRecordForm
 from cars.models import Car, Driver, DrivingRecord
 from services.models import ServiceRecord
 
@@ -32,11 +33,6 @@ class NewCar(LoginRequiredMixin, generic.CreateView):
             raise PermissionDenied
         return super(NewCar, self).dispatch(request, *args, **kwargs)
 
-    # def form_valid(self, form):
-    #     self.object = form.save(commit=False)
-    #     self.object.save()
-    #     return super().form_valid(form)
-
 class NewDriver(LoginRequiredMixin, generic.CreateView):
     fields = '__all__'
     model  = Driver
@@ -58,9 +54,9 @@ class NewDriver(LoginRequiredMixin, generic.CreateView):
     #     return super().form_valid(form)
 
 class NewDrivingRecord(LoginRequiredMixin, generic.CreateView):
-    fields = '__all__'
-    model  = DrivingRecord
-    template_name = 'cars/newdrivingrecord_form.html'
+    form_class = NewDrivingRecordForm
+    success_url = reverse_lazy('cars:drivingrecord_list')
+    template_name = "cars/newdrivingrecord_form.html"
 
     def user_perm_check(self, request):
         if request.user.has_perm('cars.add_drivingrecord'):
@@ -93,6 +89,12 @@ class DrivingRecordUpdate(LoginRequiredMixin, generic.UpdateView):
             raise PermissionDenied
         return super(DrivingRecordUpdate, self).dispatch(
             request, *args, **kwargs)
+
+    def get_form(self):
+        form = super().get_form()
+        form.fields['start_date'].widget = DateTimePickerInput(format='%Y-%m-%d %H:%M')
+        form.fields['end_date'].widget   = DateTimePickerInput(format='%Y-%m-%d %H:%M')
+        return form
 
 class DrivingRecordDelete(LoginRequiredMixin, generic.DeleteView):
     model = DrivingRecord

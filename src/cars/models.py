@@ -46,7 +46,6 @@ class Car(models.Model):
     def __str__(self):
         return self.rego
 
-
     # def get_absolute_url(self):
     #     return reverse("cars:single_car", kwargs={"pk": self.pk})
 

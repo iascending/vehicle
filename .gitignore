@@ -1,8 +1,11 @@
-Lib/
-Include/
-Scripts/
-tcl/
-__pycache__/
+.vagrant/
 bin/
+Include/
+Lib/
+node_modules/
+src/media
+__pycache__/
+tcl/
 .Python
 *.py[cod]
+*.DS_Store

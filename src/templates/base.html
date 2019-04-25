@@ -1,81 +1,82 @@
 <!DOCTYPE html>
+{% load static %}
 {% load staticfiles %}
 {% load bootstrap4 %}
 <html>
   <head>
     <meta charset="utf-8">
-    <title>PRS Vehicle Management System</title>
+    <title>Vehicle Management System</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css?family=Play+Cabin+Sketch" rel="stylesheet">
-    <link  href="{% static 'css/master.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="#" />
+    <link  href="{% static 'temp/styles.css' %}" rel="stylesheet" type="text/css" media="all"/>
   </head>
-  <!-- <link  href="{% static 'css/master.css' %}" rel="stylesheet"> -->
   <body>
-    <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-light bg-info">
-          <a class="navbar-brand" href="{% url 'home' %}">Premium Repair Services</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+    <div class="primary-nav">
+      <div class="primary-nav__brand-name"><a href="{% url 'home' %}"> Premium Repair Services </a></div>
+      <div class="primary-nav__menu-content">
+        {% if user.is_authenticated %}
+        <div class="primary-nav__dropdown">
+          <button class="primary-nav__dropdown__btn" href="#" id="cars" > Cars
+            <i class="fa fa-caret-down"></i>
           </button>
-          <div class="collapse navbar-collapse justify-content-end"  id="navbarSupportedContent">
-            <ul class="nav navbar-nav">
-              {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" > Cars </a>
-                  <ul class="dropdown-menu" >
-                    {% if perms.cars.add_car %}
-                    <li><a class="dropdown-item" href="{% url 'cars:new_car' %}">New Car</a></li>
-                    {% endif %}
-                    {% if perms.cars.add_driver %}
-                    <li><a class="dropdown-item" href="{% url 'cars:new_driver' %}">New Driver</a></li>
-                    {% endif %}
-                    <!-- <li><a class="dropdown-item" href="#">Update Details</a></li> -->
-                    <li><a class="dropdown-item" href="{% url 'cars:car_list' %}">Car List</a></li>
-                  </ul>
-                </li>
-
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" >Driving History</a>
-                  <ul class="dropdown-menu" >
-                    {% if perms.cars.add_drivingrecord %}
-                    <li><a class="dropdown-item" href="{% url 'cars:new_driving_record' %}">New Record</a></li>
-                    {% endif %}
-                    <!-- <li><a class="dropdown-item" href="#">Update Details</a></li> -->
-                    <li><a class="dropdown-item" href="{% url 'cars:drivingrecord_list' %}">Driving History</a></li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" > Services History </a>
-                  <ul class="dropdown-menu" >
-                    {% if perms.services.add_servicerecord %}
-                    <li><a class="dropdown-item" href="{% url 'services:new_service' %}">New Service</a></li>
-                    {% endif %}
-                    {% if perms.services.add_tyrerecord %}
-                    <li><a class="dropdown-item" href="{% url 'services:new_tyre_service' %}">New Tyre Service</a></li>
-                    {% endif %}
-                    <li><a class="dropdown-item" href="{% url 'services:service_list' %}">Service List</a></li>
-                    <li><a class="dropdown-item" href="{% url 'services:tyre_service_list' %}">Tyre Service List</a></li>
-                  </ul>
-                </li>
-                <li class="nav-item active"> <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a> </li>
-              {% else %}
-                <li class="nav-item active"> <a class="nav-link" href="{% url 'accounts:login' %}">Login</a> </li>
-              {% endif %}
-            </ul>
+          <div class="primary-nav__dropdown-content">
+            {% if perms.cars.add_car %}
+            <div class="primary-nav__dropdown-content__submenu"><a href="{% url 'cars:new_car' %}"> New Car </a></div>
+            {% endif %}
+            {% if perms.cars.add_driver %}
+            <div class="primary-nav__dropdown-content__submenu"><a href="{% url 'cars:new_driver' %}">New Driver</a></div>
+            {% endif %}
+            <div class="primary-nav__dropdown-content__submenu"><a href="{% url 'cars:car_list' %}">Car List</a></div>
           </div>
-        </nav>
+        </div>
+        <div class="primary-nav__dropdown">
+          <button class="primary-nav__dropdown__btn" href="#" id="driving_history" > Driving History
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="primary-nav__dropdown-content">
+            {% if perms.cars.add_drivingrecord %}
+            <div class="primary-nav__dropdown-content__submenu"><a href="{% url 'cars:new_driving_record' %}">New Record</a></div>
+            {% endif %}
+            <div class="primary-nav__dropdown-content__submenu"><a href="{% url 'cars:drivingrecord_list' %}">Driving History</a></div>
+          </div>
+        </div>
+        <div class="primary-nav__dropdown">
+          <button class="primary-nav__dropdown__btn" href="#" id="service_history" > Services History
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="primary-nav__dropdown-content">
+            {% if perms.services.add_servicerecord %}
+            <div class="primary-nav__dropdown-content__submenu"><a href="{% url 'services:new_service' %}">New Service</a></div>
+            {% endif %}
+            {% if perms.services.add_tyrerecord %}
+            <div class="primary-nav__dropdown-content__submenu"><a href="{% url 'services:new_tyre_service' %}">New Tyre Service</a></div>
+            {% endif %}
+            <div class="primary-nav__dropdown-content__submenu"><a href="{% url 'services:service_list' %}">Service List</a></div>
+            <div class="primary-nav__dropdown-content__submenu"><a href="{% url 'services:tyre_service_list' %}">Tyre Service List</a></div>
+          </div>
+        </div>
+        {% endif %}
+        <div class="primary-nav__dropdown">
+          {% if user.is_authenticated %}
+          <button class="primary-nav__dropdown__btn"><a href="{% url 'accounts:logout' %}"> Logout </a></button>
+          {% else %}
+          <button class="primary-nav__dropdown__btn"><a href="{% url 'accounts:login' %}"> Login </a></button>
+          {% endif %}
+        </div>
+      </div>
 
-        <!-- {% if not user.is_authenticated %}
-          <h1> Please Login to the System to go ahead </h1>
-        {% endif %} -->
+      <div class="primary-nav__menu-icon">
+        <div class="primary-nav__menu-icon__middle"></div>
+      </div>
     </div>
-    <div class='container-fluid'>
+
+    <div class="page-section">
       {% block content %}
       {% endblock %}
     </div>
   </body>
-  <!-- <script src="{% static "vehicle/js/master.js"%}" type="text/javascript" ></script> -->
+  <script src="{% static 'temp/master.js' %}" type="text/javascript" ></script>
 </html>

@@ -1,0 +1,146 @@
+- hosts: localhost
+  become: yes
+  vars:
+    dir_virtualenv:  /usr/local/virtualenv/vehicle
+    dir_app_src: /vagrant/src
+    dir_app_dest: /usr/local/apps/vehicle
+    dir_conf_files: /vagrant
+    # email_environs:
+    #   - key: EMAIL_HOST
+    #     value: 'smtp.office365.com'
+    #   - key: EMAIL_HOST_USER
+    #     value: 'youremail@cspmelb.com.au'
+    #   - key: EMAIL_HOST_PASSWORD
+    #     value: 'yourpassword'
+    #   - key: DEFAULT_FROM_EMAIL
+    #     value: 'from@cspmelb.com.au'
+    #   - key: EMAIL_PORT
+    #     value: '587'
+  tasks:
+    - name: Install supervisor/nginx/redis packages
+      apt:
+        name: ['supervisor', 'nginx', 'redis-server']
+        state: present
+    - name: Install python-pip package
+      apt:
+        name: ['python-pip', 'python3-distutils', 'python3.6-dev']
+        state: present
+    - name: Install VirtualEnv
+      pip:
+        name: ['virtualenv']
+        state: present
+    - name: Create Application Directory
+      file:
+        path: "{{ dir_app_dest }}"
+        state: directory
+    - name: Create Virtualenv Directory
+      file:
+        path: "{{ dir_virtualenv }}"
+        owner: vagrant
+        group: vagrant
+        mode: 0700
+        state: directory
+    - name: Copy Application Project Directory
+      synchronize:
+        src: "{{ dir_app_src }}"
+        dest: "{{ dir_app_dest }}"
+    - name: Recursively set directories permission mode
+      file:
+        path: "{{ dir_app_dest }}"
+        owner: vagrant
+        group: vagrant
+        mode: 0700
+        recurse: yes
+    - name: Set permission of manage.py for django_manage module
+      file:
+        path: "{{ dir_app_dest }}/src/manage.py"
+        mode: 0755
+    - name: Install Django Project Dependency
+      pip:
+        requirements: "{{ dir_app_dest }}/src/requirements.txt"
+        virtualenv: "{{ dir_virtualenv }}"
+        virtualenv_python: python3.6
+        virtualenv_command: /usr/local/bin/virtualenv
+        state: present
+    # - name: setup system wide environment variables for all users
+    #   lineinfile:
+    #     dest: "/etc/environment"
+    #     state: present
+    #     regexp: "^{{ item.key }}"
+    #     line: "{{ item.key }}={{ item.value }}"
+    #   with_items: "{{ email_environs }}"
+    - name: Copy supervisor configuration files
+      copy: src="{{ item.src }}" dest="{{ item.dest }}"
+      with_items:
+        - { src: "{{ dir_conf_files }}/uwsgi_vehicle.conf", dest: "/etc/supervisor/conf.d/uwsgi_vehicle.conf"}
+        - { src: "{{ dir_conf_files }}/celery_vehicle.conf", dest: "/etc/supervisor/conf.d/celery_vehicle.conf"}
+    # - name: Copy supervisor redis_vehicle.conf file
+    #   copy:
+    #     src: "{{ dir_conf_files }}/redis_vehicle.conf"
+    #     dest: /etc/supervisor/conf.d/redis_vehicle.conf
+    #     owner: vagrant
+    #     group: vagrant
+    #     mode: 0700
+    # name: Run Django collectstatic
+    # - django_manage:
+    #     app_path: "{{ dir_application }}/src/"
+    #     command: collectstatic
+    #     virtualenv: "{{ dir_virtualenv }}"
+    #   become: yes
+    #   redis-server daemonized by default
+    # - supervisorctl:
+    #     name: redis_vehicle
+    #     state: present
+    - supervisorctl:
+        name: celery_vehicle
+        state: present
+    - supervisorctl:
+        name: uwsgi_vehicle
+        state: present
+    - name: Allow Nginx to read static directory and files
+      file:
+        path: "{{ dir_app_dest }}/src/static"
+        owner: www-data
+        group: vagrant
+        mode: 0750
+        recurse: yes
+    - name: Allow Nginx to read src directory
+      file:
+        path: "{{ dir_app_dest }}/src"
+        owner: www-data
+        group: vagrant
+        mode: 0750
+    - name: Allow Nginx to read vehicle directory
+      file:
+        path: "{{ dir_app_dest }}"
+        owner: www-data
+        group: vagrant
+        mode: 0750
+    - name: Copy nginx conf file
+      copy:
+        src: "{{ dir_conf_files }}/nginx_vehicle.conf"
+        dest: /etc/nginx/sites-available/nginx_vehicle.conf
+        owner: vagrant
+        group: vagrant
+        mode: 0700
+    - name: Disable the default site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+    - name: Disable the default site
+      file:
+        path: /etc/nginx/sites-available/default
+        state: absent
+    - name: create symlink for nginx
+      file:
+        src: /etc/nginx/sites-available/nginx_vehicle.conf
+        dest: /etc/nginx/sites-enabled/nginx_vehicle.conf
+        state: link
+    - name: start/restart supervisor
+      service:
+        name: supervisor
+        state: restarted
+    - name: start/restart nginx
+      service:
+        name: nginx
+        state: restarted

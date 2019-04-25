@@ -25,15 +25,11 @@ SECRET_KEY = 'e%dk-0!r+p9k^snf#r!&ml)bzew#02v&mtew1_a_%8$ip^z1nz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.10.14',
+ALLOWED_HOSTS = [
                  '127.0.0.1',
                  'localhost',
-                 '192.168.10.87',
-                 '192.168.10.186',
-                 '192.168.10.*',
-                 '192.168.20.*',
-                 '192.168.1.*',
-        ]
+                ]
+ALLOWED_HOSTS += ['192.168.{}.{}'.format(i,j) for i in range(256) for j in range(256)]
 
 # Application definition
 INSTALLED_APPS = [
@@ -45,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'import_export',
     'bootstrap4',
+    'bootstrap_datepicker_plus',
     'accounts',
     'services',
     'cars',
@@ -115,31 +112,35 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Australia/Melbourne'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-EMAIL_USE_TLS = True
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.youremaildomain.com'
-EMAIL_HOST_USER = 'youremail@domain.com.au'
-EMAIL_HOST_PASSWORD = 'yourPassWord'
-DEFAULT_FROM_EMAIL = 'youremail@domain.com.au'
-EMAIL_PORT = 587
+EMAIL_USE_TLS       = True
+EMAIL_BACKEND       = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST          = 'smtp.office365.com'
+EMAIL_HOST_USER     = 'jasonl@cspmelb.com.au'
+EMAIL_HOST_PASSWORD = 'PassNogu7588'
+DEFAULT_FROM_EMAIL  = 'jasonl@cspmelb.com.au'
+EMAIL_PORT          = 587
+email_notification_from = DEFAULT_FROM_EMAIL
+email_notification_to   = ('iascending@gmail.com', )
+
+# EMAIL_HOST          = os.environ.get('EMAIL_HOST', '')
+# EMAIL_HOST_USER     = os.environ.get('EMAIL_HOST_USER', '')
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+# DEFAULT_FROM_EMAIL  = os.environ.get('DEFAULT_FROM_EMAIL', '')
+# EMAIL_PORT          = os.environ.get('EMAIL_PORT', '')
 
 STATIC_URL = '/static/'
 
-if DEBUG:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-else:
+if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -150,3 +151,5 @@ LOGOUT_REDIRECT_URL = 'thanks'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 600
 SESSION_SAVE_EVERY_REQUEST = True
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379//0'

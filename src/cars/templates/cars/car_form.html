@@ -3,14 +3,13 @@
 {% block content %}
 
     <div class="container">
-       <br><h3>New Car</h3>
+       <br><h1>New Car</h1>
        <form method="post" enctype="multipart/form-data">
-       {# <form method="POST"> #}
           {% csrf_token %}
+          {{ form.media }}
           {% bootstrap_form form %}
           <input type="submit" class="btn btn-primary" value="Create" />
 
-          {# <input type="submit" class="btn btn-info" value="Create"> #}
         </form>
 
     </div>

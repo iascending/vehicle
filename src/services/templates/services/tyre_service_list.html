@@ -1,35 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <div class="container">
   {% if request.user.is_authenticated %}
     <br><br>
     <div class="form-group ">
       <form class="form-inline justify-content-center">
-          <input class="form-control rounded py-2 col-sm-10 mr-4" type="search" name="search" placeholder="Query Text"> </input>
-          <button type="submit" class="btn btn-primary">Search</button>
+          <input class="form-control rounded col s12 16" type="search" name="search" placeholder="Query Text"> </input>
+          <button type="submit" class="btn btn--orange">Search</button>
       </form>
     </div>
     <br>
     {% if tyre_service_list %}
-      <table id="tyre_services" class="table table-hover table-striped">
-        <thead class="thead-light">
-          <tr>
-            <th><a href="?order_by=car__rego">Car</a></th>
-            <th><a href="?order_by=service_type">Type</a></th>
-            <th><a href="?order_by=tyre_position">Position</a></th>
-            <th><a href="?order_by=number">Quantity</a></th>
-            <th><a href="?order_by=last_service_at">Service Date</a></th>
+      <table class="table">
+        <br>
+        <caption class="table__caption"> The List of Tyre Service History  </caption>
+        <br>
+        <thead class="table__thead">
+          <tr class="table__tr">
+            <th class="table__th" scope="col"><a href="?order_by=car__rego">Car</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=service_type">Type</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=tyre_position">Position</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=number">Quantity</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=last_service_at">Service Date</a></th>
           </tr>
-       </thead>
+        </thead>
           {% for service in tyre_service_list %}
-              <tr>
-                  <td>{{ service.car }}</td>
-                  <td>{{ service.service_type }}</a></td>
-                  <td>{{ service.get_tyre_position_display }}</td>
-                  <td>{{ service.number }}</td>
-                  <td><a href="{{ service.service_report.url }}">{{ service.last_service_at|date:'Y-m-d' }}</a></td>
+              <tr class="table__tr">
+                  <td class="table__td" data-label="Car">{{ service.car }}</td>
+                  <td class="table__td" data-label="Type">{{ service.service_type }}</td>
+                  <td class="table__td" data-label="Position">{{ service.get_tyre_position_display }}</td>
+                  <td class="table__td" data-label="Quantity">{{ service.number }}</td>
+                  <td class="table__td" data-label="Service Date"><a href="{{ service.service_report.url }}">{{ service.last_service_at|date:'Y-m-d' }}</a></td>
               </tr>
           {% endfor %}
       </table>
@@ -55,6 +57,7 @@
   {% else %}
     <h2> Please Login First !</h2>
   {% endif %}
+
 </div>
 
 {% endblock %}

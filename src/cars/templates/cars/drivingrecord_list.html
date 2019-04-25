@@ -2,46 +2,48 @@
 
 {% block content %}
 
-<div class="container-fluid">
+<div class="container">
   {% if request.user.is_authenticated %}
     <br><br>
     <div class="form-group ">
       <form class="form-inline justify-content-center">
-          <input class="form-control rounded py-2 col-sm-10 mr-4" type="search" name="search"
+          <input class="form-control rounded col s12 16" type="search" name="search"
                 placeholder="Query text"> </input>
-          <button type="submit" class="btn btn-primary">Search</button>
+          <button type="submit" class="btn btn--orange">Search</button>
       </form>
     </div>
     <br>
     {% if drivingrecord_list %}
-      <table id="cars" class="table table-hover table-bordered table-fit">
-        <thead class="thead-light text-justify">
-          <tr>
-            <th class="text-center"><a href="?order_by=-pk">SN</a></th>
-            <th class="text-center"><a href="?order_by=driver__name">Driver</a></th>
-            <th class="text-center"><a href="?order_by=car__rego">Car</a></th>
-            <th class="text-center"><a href="?order_by=-start_date">Start</a></th>
-            <th class="text-center"><a href="?order_by=-end_date">End</a></th>
-            <th class="text-center">Note</th>
-            <th class="text-center"><a href="?order_by=-created_at">Created at</a></th>
-            <th class="text-center">Action</th>
+      <table class="table">
+        <caption class="table__caption"> Driving History </caption>
+        <thead class="table__thead">
+          <tr class="table__tr">
+            <th class="table__th" scope="col"><a href="?order_by=-pk">SN</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=driver__name">Driver</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=car__rego">Car</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=-start_date">Start</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=-end_date">End</a></th>
+            <th class="table__th" scope="col">Note</th>
+            <th class="table__th" scope="col"><a href="?order_by=-created_at">Created at</a></th>
+            <th class="table__th table__col--nowrap" scope="col">Action</th>
           </tr>
        </thead>
           {% for record in drivingrecord_list %}
-              <tr>
-                  <!-- <td> <a href="/cars/drivingrecords/{{ record.pk }}"> {{ record.pk }} </a></td> -->
-                  <td> {{ record.pk }} </td>
-                  <td> <a href="/cars/drivers/{{ record.driver.id }}">{{ record.driver }}</a></td>
-                  <td> <a href="/cars/cars/{{ record.car.id }}">{{ record.car }}</a></td>
-                  <td>{{ record.start_date|date:'Y-m-d H:i' }}</td>
-                  <td>{{ record.end_date|date:'Y-m-d H:i' }}</td>
-                  <td> <div class="table-fit__large-table-cell">
+              <tr class="table__tr">
+                  <td class="table__td" data-label="SN"> {{ record.pk }} </td>
+                  <td class="table__td" data-label="Driver"> <a href="/cars/drivers/{{ record.driver.id }}">{{ record.driver }}</a></td>
+                  <td class="table__td" data-label="Car"> <a href="/cars/cars/{{ record.car.id }}">{{ record.car }}</a></td>
+                  <td class="table__td" data-label="Start">{{ record.start_date|date:'Y-m-d H:i' }}</td>
+                  <td class="table__td" data-label="End">{{ record.end_date|date:'Y-m-d H:i' }}</td>
+                  <td class="table__td" data-label="Note"> <div class="table__td--large-cell">
                     {{ record.note }}
                   </div></td>
-                  <td>{{ record.created_at|date:'Y-m-d H:i' }}</td>
-                  <td class="text-center">
-                    <a href="{% url 'cars:update_drivingrecord' record.pk %}" class="btn btn-info btn-sm"> Update </a>
-                    <a href="{% url 'cars:delete_drivingrecord' record.pk %}" class="btn btn-danger btn-sm"> Delete </a>
+                  <td class="table__td" data-label="Created at">{{ record.created_at|date:'Y-m-d H:i' }}</td>
+                  <td class="table__td table__col--nowrap" data-label="Action">
+                    <div class="table__td__btn">
+                      <a href="{% url 'cars:update_drivingrecord' record.pk %}" class="btn btn--blue"> Update </a>
+                      <a href="{% url 'cars:delete_drivingrecord' record.pk %}" class="btn btn--orange"> Delete </a>
+                    </div>
                   </td>
               </tr>
           {% endfor %}

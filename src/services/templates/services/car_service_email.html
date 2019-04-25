@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h3>This is an <strong>important</strong> email. Please read carefully.</h3>
+    <br>
+    <p> The <strong>{{ make }} {{ type }} {{ car }}</strong> was being serviced at {{ curr_date | date:'Y-m-d' }}.</p>
+    <p> At moment <strong>{{ curr_drvr }}</strong> was driving this {{ make }} {{ type }}. </p>
+    <p> It's odometer reading is <strong>{{ curr_odos }}km</strong> at service date of {{ curr_date | date:'Y-m-d' }}. </p>
+    <p> This {{ type }} was driven <strong>{{ distance }}</strong>km since previously serviced at {{ prev_date|date:'Y-m-d' }}.</p>
+    <br>
+    <p> Thanks for your support to IT department.</p>
+  </body>
+</html>

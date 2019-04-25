@@ -1,0 +1,4 @@
+.page-section {
+  @mixin clearfix;
+  margin: 3rem 1rem;
+}

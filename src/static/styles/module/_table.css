@@ -1,0 +1,125 @@
+.table {
+  border: 0;
+  @mixin atMedium {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    table-layout: auto;
+    width: 100%;
+  }
+  &__caption {
+    font-size: 1em;
+    margin: .5em 0 .75em 0;
+    display: table-caption;
+    caption-side: top;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    @mixin atMedium {
+      font-size: 1.5em;
+    }
+  }
+  &__thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    @mixin atMedium {
+      display: table-header-group;
+      vertical-align: middle;
+      border-color:inherit;
+      position: relative;
+    }
+  }
+  &__tbody {
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.25em;
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+  }
+  &__tr {
+    border-bottom: 3px solid #ddd;
+    background-color: #eee;
+    display: block;
+    margin-bottom: .625em;
+    @mixin atMedium {
+      background-color: #f8f8f8;
+      border: 1px solid #ddd;
+      padding: .35em;
+      display:table-row;
+      vertical-align: inherit;
+    }
+  }
+  &__th {
+    font-size: 0.75em;
+    @mixin atMedium {
+      padding: .625em;
+      text-align: center;
+      font-size: .75em;
+      /* letter-spacing: .1em; */
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    &--large-table {
+      @mixin atMedium {
+        display: none;
+      }
+    }
+  }
+  &__col--nowrap {
+    white-space: nowrap;
+  }
+  &__td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    height: 3em;
+    font-size: .8em;
+    text-align: right;
+    &::before {
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    &:last-child {
+      border-bottom: 0;
+    }
+    @mixin atMedium {
+      @mixin clearfix-before;
+      content: "";
+      padding: .625em;
+      text-align: center;
+      display: table-cell;
+      vertical-align: inherit;
+      &--large-table {
+        display: none;
+      }
+    }
+    &--large-cell {
+      height: 2.2em;
+      vertical-align: top;
+      overflow: hidden;
+      text-align: right;
+      @mixin atMedium {
+        min-width: 6em;
+        height: 3.5em;
+        text-align: justify;
+        overflow: hidden;
+      }
+    }
+
+    &__btn {
+      position: relative;
+      top: -0.65rem;
+      @mixin atMedium {
+        top: 0.2rem;
+      }
+    }
+  }
+}

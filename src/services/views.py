@@ -1,14 +1,21 @@
+import pdb
 from django.views import generic
 from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.db.models import Q
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from bootstrap_datepicker_plus import DatePickerInput
 
 from services.models import TyreRecord, ServiceRecord
 from services.forms import FileUploadForm, TyreServiceForm
-from django.core.mail import EmailMessage
+
+# from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from services.tasks import send_email_async
 
 # Create your views here.
 class NewService(LoginRequiredMixin, generic.CreateView):
@@ -26,12 +33,50 @@ class NewService(LoginRequiredMixin, generic.CreateView):
             raise PermissionDenied
         return super(NewService, self).dispatch(request, *args, **kwargs)
 
+    def get_form(self):
+        form = super().get_form()
+        form.fields['last_service_at'].widget = DatePickerInput(format='%Y-%m-%d')
+        form.fields['next_service_at'].widget = DatePickerInput(format='%Y-%m-%d')
+        return form
+
+    def get_email_context(self, form):
+        subject  = "On vehicle service and maintainance"
+        try:
+            driver = form.cleaned_data['car'].working_records.latest('start_date').driver.name
+        except:
+            driver = "nobody"
+        try:
+            qs = ServiceRecord.objects.filter(car__exact=form.cleaned_data['car']).order_by('-last_service_at')
+            prev_date = qs[1].last_service_at
+            prev_odos = qs[1].last_odometer_reading
+            distance  = int(form.cleaned_data['last_odometer_reading']) - int(prev_odos)
+        except:
+            prev_date = None
+            prev_odos = None
+            distance  = None
+
+        context = { 'user': self.request.user,
+                    'make': form.cleaned_data['car'].make,
+                    'car' : form.cleaned_data['car'].rego,
+                    'type': form.cleaned_data['car'].type.lower(),
+                    'prev_date': prev_date,
+                    'curr_date': form.cleaned_data['last_service_at'],
+                    'curr_drvr': driver,
+                    'prev_odos': prev_odos,
+                    'curr_odos': form.cleaned_data['last_odometer_reading'],
+                    'distance':  distance
+                  }
+        # pdb.set_trace()
+        html_message = render_to_string('services/car_service_email.html',
+                                         context, request=self.request)
+        plain_message= strip_tags(html_message)
+        return subject, plain_message, html_message
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.save()
-        title = str(self.object.car) + " serviced"
-        email = EmailMessage(title, '', to=['email@address.yourreminder.sendto'])
-        email.send()
+        subject, plain_message, html_message = self.get_email_context(form)
+        send_email_async.delay(subject, plain_message, html_message)
         return super().form_valid(form)
 
 class ServiceList(generic.ListView):
@@ -80,12 +125,48 @@ class NewTyreService(LoginRequiredMixin, generic.CreateView):
             raise PermissionDenied
         return super(NewTyreService, self).dispatch(request, *args, **kwargs)
 
+    def get_form(self):
+        form = super().get_form()
+        form.fields['last_service_at'].widget = DatePickerInput(format='%Y-%m-%d')
+        return form
+
+    def get_email_context(self, form):
+        subject  = "On vehicle tyre repairing and replacing"
+        try:
+            driver = form.cleaned_data['car'].working_records.latest('start_date').driver.name
+        except:
+            driver = "nobody"
+        try:
+            qs = TyreRecord.objects.filter(car__exact=form.cleaned_data['car']).order_by('-last_service_at')
+            prev_date = qs[len(qs)-1].last_service_at
+        except:
+            prev_date = None
+        try:
+            qs = TyreRecord.objects.filter(car__exact=form.cleaned_data['car']).order_by('-last_service_at')
+            tyre_chng = sum([qs[i].number for i in range(len(qs))])
+        except:
+            tyre_chng = None
+
+        context = { 'user': self.request.user,
+                    'make': form.cleaned_data['car'].make,
+                    'type': form.cleaned_data['car'].type.lower(),
+                    'car' : form.cleaned_data['car'].rego,
+                    'prev_date': prev_date,
+                    'curr_date': form.cleaned_data['last_service_at'],
+                    'curr_drvr': driver,
+                    'tyre_chng': tyre_chng
+                  }
+        # pdb.set_trace()
+        html_message = render_to_string('services/tyre_service_email.html',
+                                         context, request=self.request)
+        plain_message= strip_tags(html_message)
+        return subject, plain_message, html_message
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.save()
-        title = str(self.object.car) + " tyres serviced"
-        email = EmailMessage(title, '', to=['email@address.yourreminder.sendto'])
-        email.send()
+        subject, plain_message, html_message = self.get_email_context(form)
+        send_email_async.delay(subject, plain_message, html_message)
         return super().form_valid(form)
 
 class TyreServiceList(generic.ListView):

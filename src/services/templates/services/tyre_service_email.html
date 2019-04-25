@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title> </title>
+  </head>
+  <body>
+    <h3>This is an <strong>important</strong> email. Please read carefully.</h3>
+    <br>
+    <p> The <strong>{{ make }} {{ type }} {{ car }}</strong> tyres were being repaired/replaced at {{ curr_date | date:'Y-m-d' }}.</p>
+    <p> At moment <strong>{{ curr_drvr }}</strong> was driving this {{ make }} {{ type }}. (Note: most recent driver in driving history records)</p>
+    <p> There were {{ tyre_chng }} tyres in total repaired/replaced starting from first tyre service record at {{ prev_date|date:'Y-m-d' }}.</p>
+    <br>
+    <p> Thanks for your support to IT department.</p>
+  </body>
+</html>

@@ -2,52 +2,52 @@
 
 {% block content %}
 
-<!-- <div class="container"> -->
+<div class="container">
   {% if request.user.is_authenticated %}
     <br><br>
-
     <div class="form-group ">
       <form class="form-inline justify-content-center">
-          <input class="form-control rounded col-sm-10 mr-4" type="search" name="search"
-                placeholder="Please search for car rego and driver"> </input>
-          <button type="submit" class="btn btn-primary">Search</button>
+          <input class="form-control rounded col s12 16" type="search" name="search"
+                placeholder="Please search here"> </input>
+          <button type="submit" class="btn btn--orange">Search</button>
       </form>
     </div>
 
     <br>
     {% if car_list %}
-      <table id="cars" class="table table-striped table-fit">
-        <thead class="thead-light">
-          <tr>
-            <th class="text-center"><a href="?order_by=rego">Car</a></th>
-            <th class="text-center"><a href="?order_by=lessor">Owner</a></th>
-            <th class="text-center"><a href="?order_by=lease_start_date">Start Date</a></th>
-            <th class="text-center"><a href="?order_by=start_odometer">StartOdo</a></th>
-            <th class="text-center"><a href="?order_by=latest_service_date">Serviced Date</a></th>
-            <th class="text-center"><a href="?order_by=latest_odometer_reading">CurrentOdo</a></th>
-            <th class="text-center"><a href="?order_by=rego_exp">Rego Expiry</a></th>
-            <!-- <th><a href="?order_by=insurance_exp">Insurance Expiry</a></th> -->
-            <th class="text-center"><a href="?order_by=current_driver">Current Driver</a></th>
-            <th class="text-center">Contract</th>
-            <!-- <th><a href="?order_by=file_upload_date">Update Date</a></th> -->
+      <table class="table">
+        <caption class="table__caption"> The List of Cars and Vans </caption>
+        <thead class="table__thead">
+          <tr class="table__tr">
+            <th class="table__th" scope="col"><a href="?order_by=rego">Car</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=lessor">Owner</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=lease_start_date">Start Date</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=start_odometer">StartOdo</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=latest_service_date">Serviced Date</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=latest_odometer_reading">CurrentOdo</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=rego_exp">Rego Expiry</a></th>
+            <th class="table__th" scope="col"><a href="?order_by=current_driver">Current Driver</a></th>
+            <th class="table__th" scope="col">Contract</th>
           </tr>
        </thead>
-          {% for car in car_list %}
-              <tr>
-                  <td><a href="/cars/cars/{{ car.id }}/" class="see_detail">{{ car.rego }}</a></td>
-                  <td>{{ car.get_lessor_display }}</td>
-                  <td>{{ car.lease_start_date|date:'Y-m-d' }}</td>
-                  <td>{{ car.start_odometer | stringformat:'d' }}</td>
-                  <td>{{ car.latest_service_date|date:'Y-m-d' }}</td>
-                  <td>{{ car.latest_odometer_reading | stringformat:'d'}}</td>
-                  <td>{{ car.rego_exp|date:'Y-m-d' }}</td>
-                  <!-- <td>{{ car.insurance_exp|date:'Y-m-d' }}</td> -->
-                  <td>{{ car.current_driver}}</td>
-                  <td> <a href="{{ car.contract.url }}"> Attachment </a></td>
-                  <!-- <td>{{ car.file_upload_date|date:'Y-m-d' }}</td> -->
-              </tr>
-          {% endfor %}
+       <tbody class="table__tbody">
+         {% for car in car_list %}
+             <tr class="table__tr">
+                 <td class="table__td" data-label="Car"><a href="/cars/cars/{{ car.id }}/">{{ car.rego }}</a></td>
+                 <td class="table__td" data-label="Owner">{{ car.get_lessor_display }}</td>
+                 <td class="table__td" data-label="Start Date">{{ car.lease_start_date|date:'Y-m-d' }}</td>
+                 <td class="table__td" data-label="StartOdo">{{ car.start_odometer | stringformat:'d' }}</td>
+                 <td class="table__td" data-label="service Date">{{ car.latest_service_date|date:'Y-m-d' }}</td>
+                 <td class="table__td" data-label="CurrentOdo">{{ car.latest_odometer_reading | stringformat:'d'}}</td>
+                 <td class="table__td" data-label="Rego Expiry">{{ car.rego_exp|date:'Y-m-d' }}</td>
+                 <td class="table__td" data-label="Current Driver">{{ car.current_driver}}</td>
+                 <td class="table__td" data-label="Contract"> <a href="{{ car.contract.url }}"> Attachment </a></td>
+             </tr>
+         {% endfor %}
+       </tbody>
       </table>
+      <br>
+      <br>
 
       {% if is_paginated %}
           <div class="pagination">
@@ -70,6 +70,6 @@
   {% else %}
     <h2> Please Login First !</h2>
   {% endif %}
-<!-- </div> -->
+</div>
 
 {% endblock %}

@@ -24,9 +24,8 @@ urlpatterns = [
     path('', views.HomePage.as_view(), name='home'),
     path('thanks/', views.ThanksPage.as_view(), name='thanks'),
     path('accounts/', include('accounts.urls', namespace='accounts')),
-    # path('accounts/', include()),
     path('cars/', include('cars.urls', namespace='cars')),
     path('services/', include('services.urls', namespace='services')),
-] 
+]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

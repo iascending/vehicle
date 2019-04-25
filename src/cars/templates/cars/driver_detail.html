@@ -2,12 +2,24 @@
 {% load bootstrap4 %}
 
 {% block content %}
-
-  <br><h3> The Driver's Details </h3><br>
-  <ul>
-    <li><div class="row"><div class="col-sm-4"> Name: </div> <div class="col-sm-8"> {{ driver.name }} </div></div></li>
-    <li><div class="row"><div class="col-sm-4"> Mobile: </div> <div class="col-sm-8"> {{ driver.mobile }} </div></div></li>
-    <li><div class="row"><div class="col-sm-4"> Email: </div> <div class="col-sm-8"> {{ driver.email }} </div></div></li>
-    <li><div class="row"><div class="col-sm-4"> Department: </div> <div class="col-sm-8"> {{ driver.get_dept_display }} </div></div></li>
-  </ul>
+<table class="table">
+  <br>
+  <caption class="table__caption"> The Driver Infomation Details</caption>
+  <thead class="table__thead">
+    <tr class="table__tr">
+      <th class="table__th" scope="col">Name</th>
+      <th class="table__th" scope="col">Mobile</th>
+      <th class="table__th" scope="col">Email</th>
+      <th class="table__th" scope="col">Department</th>
+    </tr>
+ </thead>
+ <tbody class="table__tbody">
+   <tr class="table__tr">
+       <td class="table__td" data-label="Name">{{ driver.name }}</td>
+       <td class="table__td" data-label="Mobile">{{ driver.name }}</td>
+       <td class="table__td" data-label="Email">{{ driver.email }}</td>
+       <td class="table__td" data-label="Department">{{ driver.get_dept_display }}</td>
+   </tr>
+ </tbody>
+</table>
 {% endblock %}
